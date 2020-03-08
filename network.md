@@ -33,13 +33,14 @@ the "management node"
   internal kubernetes network.
 
 1. to `/etc/network/interfaces`, add
+  ```conf
+allow-hotplug eth0
 
-    allow-hotplug eth0
-
-    iface eth0 inet static
-      address 10.0.0.100
-      netmask 255.255.255.0
-      so we get that management interface up
+iface eth0 inet static
+  address 10.0.0.100
+  netmask 255.255.255.0
+  so we get that management interface up
+  ```
 
 1. run `sudo ifconfig eth0 10.0.0.100`
 
@@ -52,19 +53,19 @@ the "management node"
   ```conf
 # dhcpd.conf
 
-# in this example, we serve DHCP requests from 10.0.0.(3 to 253) 
-# and we have a router at 10.0.0.1
-# these will be the name of the nodes.
+# replace <default gateway> with the gateway that comes up when
+#   running `route -n get default`
+# replace <local DNS server> with the ip that comes after SERVER when
+#   running `dig`. if it's ipv6, replace with `option dhcp6.name-servers`
 subnet 10.0.0.0 netmask 255.255.255.0 {
   authoritative;
-  range 10.0.0.3 10.0.0.99; # can't have 10.0.0.100 - 10.0.0.110 because we are
-  option routers 10.0.0.100;     # this ends up being the default gateway router
+  option routers <default gateway>;     # this ends up being the default gateway router
   interface eth0;
   default-lease-time 600;
   max-lease-time 7200;
   option broadcast-address 10.0.0.255;
   option domain-name "pis";
-  option domain-name-servers 8.8.8.8;
+  option domain-name-servers <local DNS Server>;
 }
 
 group {

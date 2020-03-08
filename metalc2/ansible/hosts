@@ -1,0 +1,26 @@
+# this is a debugging hosts file adaped from the one that vagrant generates
+# in `.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory`
+#
+# This is so you can run ansible commands without running `vagrant provision`
+
+node0 ansible_host=192.168.1.70 ansible_port=22 ansible_user='pi' 
+node1 ansible_host=192.168.1.64 ansible_port=22 ansible_user='pi' 
+node2 ansible_host=192.168.1.72 ansible_port=22 ansible_user='pi' 
+node3 ansible_host=192.168.1.67 ansible_port=22 ansible_user='pi' 
+node4 ansible_host=192.168.1.73 ansible_port=22 ansible_user='pi' 
+
+# only 1 master master. This stuff executes stuff that is only done
+# once for the entire cluster
+[master]
+node0
+
+# for all the other masters when we configure HA masters
+[masters]
+
+[workers]
+node[1:4]
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+dev_env=false
+master_node_ip=10.0.0.100
