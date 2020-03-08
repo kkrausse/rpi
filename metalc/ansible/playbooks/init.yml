@@ -1,22 +1,22 @@
 - hosts: all
   become: yes
   tasks:
-    - name: allow 'spicy' to have passwordless sudo
+    - name: allow '{{ ansible_user }}' to have passwordless sudo
       lineinfile:
         dest: /etc/sudoers
-        line: 'spicy ALL=(ALL) NOPASSWD: ALL'
+        line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
 
     - name: create ~/.ssh/ directory
       become: yes
-      become_user: spicy
+      become_user: "{{ ansible_user }}"
       file:
         path: $HOME/.ssh
         state: directory
         mode: 0755
 
     - name: set up authorized keys for the ubuntu user
-      authorized_key: user=spicy key="{{item}}"
+      authorized_key: user="{{ ansible_user }}" key="{{item}}"
       with_file:
         - ~/.ssh/id_rsa.pub
 

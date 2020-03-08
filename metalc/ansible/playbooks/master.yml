@@ -13,7 +13,7 @@
 
   - name: create .kube directory
     become: yes
-    become_user: spicy
+    become_user: "{{ ansible_user }}"
     file:
       path: $HOME/.kube
       state: directory
@@ -22,20 +22,20 @@
   - name: copy admin.conf to user's kube config
     copy:
       src: /etc/kubernetes/admin.conf
-      dest: /home/spicy/.kube/config
+      dest: /home/{{ ansible_user }}/.kube/config
       remote_src: yes
-      owner: spicy
+      owner: "{{ ansible_user }}"
 
 # install flannel for the dev environment or calico for the legit one
   - name: upload pod network manifest to host
     copy:
       src: "{{ '../../dev-env/kube-flannel.yml' if (dev_env == true) else '../../calico.yml' }}"
-      dest: /home/spicy/{{ 'kube-flannel.yml' if (dev_env == true) else 'calico.yml' }}
+      dest: /home/{{ ansible_user }}/{{ 'kube-flannel.yml' if (dev_env == true) else 'calico.yml' }}
 
   - name: install Pod network
     become: yes
-    become_user: spicy
-    shell: kubectl apply -f /home/spicy/{{ 'kube-flannel.yml' if (dev_env == true) else 'calico.yml' }} >> pod_network_setup.txt
+    become_user: "{{ ansible_user }}"
+    shell: kubectl apply -f /home/{{ ansible_user }}/{{ 'kube-flannel.yml' if (dev_env == true) else 'calico.yml' }} >> pod_network_setup.txt
     args:
       chdir: $HOME
 #        creates: pod_network_setup.txt
