@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 #
 # Run `./get_macs.py chicks.csv` and then enter the password for spicy.
 #
@@ -27,17 +27,19 @@ def get_ether(ip_out, iface_name):
 
 # executes the command on the given ip with the given ssh password to user spicy
 # and returns the standard output of that command
-def get_output(ip_addr, passwd, cmd):
+def get_output(ip_addr, user, passwd, cmd):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(ip_addr, username='spicy', password=passwd)
+    ssh.connect(ip_addr, username=user, password=passwd)
     inp, outp, errp = ssh.exec_command(cmd)
     return outp.read().decode('utf-8')
 
 # given a csv with headers, this adds the interfaces as new columns
 # passed as arguments
 if __name__ == "__main__":
-    passwd = getpass("enter password of spicy:")
+    user = raw_input('enter ssh username')
+    passwd = getpass("enter ssh password")
+
     if len(sys.argv) < 3:
         print('usage: `./get_macs.py ips.csv iface1 iface2 ...`' +
                 'where ips.csv has at leas an "ip" column')
@@ -52,7 +54,7 @@ if __name__ == "__main__":
                 fieldnames.append(iface)
         rows = []
         for row in reader:
-            ip_output = get_output(row['ip'], passwd, 'ip addr')
+            ip_output = get_output(row['ip'], user, passwd, 'ip addr')
             for iface in ifaces:
                 row[iface] = get_ether(ip_output, iface)
             rows.append(row)
