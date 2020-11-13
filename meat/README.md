@@ -16,13 +16,17 @@ the goal is to do the same thing as him, except:
 
 TODO: price it out first
 
-| thing             | cost |
-|-------------------|------|
-| rpi               | $10  |
-| thermometer probe | $$$  |
-| mcp3008           | $$$  |
-| breadboard + wire | cost |
-| soiderin iron     | cost |
+| thing              | cost |
+|--------------------|------|
+| rpi                | $10  |
+| thermometer probes | $17  | - 2 of them
+| mcp3008 (4)        | $12  |
+| breadboard + wire  | $9   |
+| soidering iron     | $23  |
+| mono jack          | $6   |
+| digital multimeter | $25  | - I'm thinking AstroAI DMM TRMS 4000 counts - seems like it has most stuff
+| resistors?         | cost |
+| might need SD card |      | - if I need this, might be better to get kit that has usb->sd thats $27 total with case and power and gpio pins
 
 ## Resources
 

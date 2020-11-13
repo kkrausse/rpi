@@ -6,6 +6,12 @@ stuff
 nodes.csv shows the network setup I have at 2841 w wildwood dr, but changes on
 location
 
+## Ideas
+
+- kube cluster
+- [use this to make a heater for mushrooms](https://twosortoftechguys.wordpress.com/2018/08/13/how-we-made-a-raspberry-pi-controlled-8-outlet-power-box/)
+- the meater thing [from this](https://kyleflan.wordpress.com/2017/10/20/tempiture-a-raspberry-pi-powered-wireless-grilling-thermometer-system/)
+- for both of these I wanna read a book like "Wiring Simplified" by Hartwell and Richter
 ## Kubernetes
 
 right now, the goal is to deploy a working kubernetes cluster. The subdirectory
